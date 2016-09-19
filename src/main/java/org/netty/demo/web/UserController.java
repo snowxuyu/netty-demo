@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/user")
 public class UserController {
 
-/*	@RequestMapping(value="/netty")
+	@RequestMapping(value="/netty")
 	public String demoNetty(String name) {
 		System.out.println(name);
 		return "";
-	}*/
+	}
 
 	
 	@RequestMapping(value="/param")

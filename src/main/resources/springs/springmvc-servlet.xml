@@ -47,7 +47,6 @@
 		</property>
 	</bean>
 
-
 	<!--<bean id="templateResolver"
 		class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
 		<property name="prefix" value="/WEB-INF/templates/" />
