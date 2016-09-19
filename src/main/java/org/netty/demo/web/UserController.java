@@ -11,10 +11,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+/*	@RequestMapping(value="/netty")
+	public String demoNetty(String name) {
+		System.out.println(name);
+		return "";
+	}*/
+
 	
-	@RequestMapping(value="/netty")
+	@RequestMapping(value="/param")
 	@ResponseBody
-	public ResponseEntity demoNetty(String name) {
+	public ResponseEntity param(String name) {
 		System.out.println(name);
 		return BaseResponse.buildSuccess(name, "请求成功");
 	}
