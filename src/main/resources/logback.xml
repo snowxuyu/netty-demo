@@ -3,7 +3,7 @@
     debug="false">
 
     <property name="USER_HOME" value="logs" />
-    <property scope="context" name="FILE_NAME" value="qianlong-vip3-log" />
+    <property scope="context" name="FILE_NAME" value="netty-demo" />
 
     <timestamp key="byDay" datePattern="yyyy-MM-dd" />
 
