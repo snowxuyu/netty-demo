@@ -17,6 +17,12 @@ import java.util.HashMap;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	
+	
+	@RequestMapping(value = "/test")
+	public void test(String name) {
+		System.out.println(name);
+	}
 
     @RequestMapping(value = "/netty")
     public String demoNetty(String name) {
