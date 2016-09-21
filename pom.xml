@@ -1,47 +1,48 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.netty.demo</groupId>
-  <artifactId>netty-demo</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+	<groupId>org.netty.demo</groupId>
+	<artifactId>netty-demo</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
-  <name>netty-demo</name>
+	<name>netty-demo</name>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-  <dependencies>
-  	<dependency>
-      <groupId>org.framework.basic</groupId>
-      <artifactId>basic-netty</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>org.framework.basic</groupId>
+			<artifactId>basic-netty</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 
-    <dependency>
-      <groupId>org.framework.basic</groupId>
-      <artifactId>basic-core</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
+		<dependency>
+			<groupId>org.framework.basic</groupId>
+			<artifactId>basic-core</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 
-    <!--<dependency>
-      <groupId>org.thymeleaf</groupId>
-      <artifactId>thymeleaf</artifactId>
-      <version>3.0.0.RELEASE</version>
-    </dependency>
+		<!--<dependency> <groupId>org.thymeleaf</groupId> <artifactId>thymeleaf</artifactId> 
+			<version>3.0.0.RELEASE</version> </dependency> <dependency> <groupId>org.thymeleaf</groupId> 
+			<artifactId>thymeleaf-spring4</artifactId> <version>3.0.0.RELEASE</version> 
+			</dependency> -->
+	</dependencies>
 
-    <dependency>
-      <groupId>org.thymeleaf</groupId>
-      <artifactId>thymeleaf-spring4</artifactId>
-      <version>3.0.0.RELEASE</version>
-    </dependency>-->
-  </dependencies>
-  
-  <build>
+	<build>
 		<finalName>netty-demo</finalName>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -53,16 +54,6 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<filters>
-								<filter>
-									<artifact>*:*</artifact>
-									<excludes>
-										<exclude>META-INF/*.SF</exclude>
-										<exclude>META-INF/*.DSA</exclude>
-										<exclude>META-INF/*.RSA</exclude>
-									</excludes>
-								</filter>
-							</filters>
 							<transformers>
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
@@ -78,9 +69,6 @@
 									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<resource>META-INF/spring.schemas</resource>
 								</transformer>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-									<resource>META-INF/plexus/components.xml</resource>
-								</transformer>
 							</transformers>
 						</configuration>
 					</execution>
@@ -88,5 +76,5 @@
 			</plugin>
 		</plugins>
 	</build>
-  
+
 </project>
