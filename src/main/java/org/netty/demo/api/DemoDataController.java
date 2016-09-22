@@ -1,9 +1,8 @@
-package org.netty.demo.web;
+package org.netty.demo.api;
 
 import org.framework.basic.system.BaseResponse;
 import org.framework.basic.system.ResponseEntity;
 import org.netty.demo.dto.UserDto;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,25 +13,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
-@Controller
-@RequestMapping("/user")
-public class UserController {
-	
-	
-	@RequestMapping(value = "/test")
-	public void test(String name) {
-		System.out.println(name);
-	}
-
-    @RequestMapping(value = "/netty")
-    public String demoNetty(String name) {
-        System.out.println(name);
-        return "";
-    }
-
+/**
+ * Created with IntelliJ IDEA.
+ * User: snowxuyu
+ * Date: 2016/9/22
+ * Time: 22:11
+ */
+@RestController
+@RequestMapping(value = "/api")
+public class DemoDataController {
 
     @RequestMapping(value = "/param")
-    @ResponseBody
     public ResponseEntity param(String name) {
         System.out.println(name);
         return BaseResponse.buildSuccess(name, "请求成功");
@@ -40,14 +31,12 @@ public class UserController {
 
 
     @RequestMapping(value = "/json")
-    @ResponseBody
     public ResponseEntity paramsJson(@RequestBody UserDto dto) {
         System.out.println(dto);
         return BaseResponse.buildSuccess(dto, "请求成功");
     }
 
     @RequestMapping(value = "/dto")
-    @ResponseBody
     public ResponseEntity paramsDto(UserDto dto) {
         System.out.println(dto);
         return BaseResponse.buildSuccess(dto, "请求成功");
@@ -60,7 +49,6 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/uploadFile", method= RequestMethod.POST)
-    @ResponseBody
     public ResponseEntity uploadFile(@RequestParam(value="file", required=true) MultipartFile file) throws IOException {
 
         //@RequestParam(value="file", required=true) MultipartFile file   HttpServletRequest request
@@ -86,7 +74,6 @@ public class UserController {
      * @param resp
      */
     @RequestMapping(value = "/export")
-    @ResponseBody
     public void exportCreditAssignment(HttpServletRequest req, HttpServletResponse resp) {
         //以下2行代码解决跨源问题
         resp.setHeader("Access-Control-Allow-Origin", "*");
