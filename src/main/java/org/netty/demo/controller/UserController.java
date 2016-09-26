@@ -12,7 +12,8 @@ public class UserController {
 	public void test(String name) {
 		System.out.println(name);
 	}
-
+	
+	//没有设置视图解析器  会出错
     @RequestMapping(value = "/netty")
     public String demoNetty(String name) {
         System.out.println(name);

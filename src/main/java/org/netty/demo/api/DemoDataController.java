@@ -2,6 +2,7 @@ package org.netty.demo.api;
 
 import org.framework.basic.system.BaseResponse;
 import org.framework.basic.system.ResponseEntity;
+import org.framework.common.util.IpUtils;
 import org.netty.demo.dto.UserDto;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,8 +25,9 @@ import java.util.HashMap;
 public class DemoDataController {
 
     @RequestMapping(value = "/param")
-    public ResponseEntity param(String name) {
+    public ResponseEntity param(String name, HttpServletRequest request) {
         System.out.println(name);
+        System.out.println(IpUtils.getIpAddr(request));
         return BaseResponse.buildSuccess(name, "请求成功");
     }
 
