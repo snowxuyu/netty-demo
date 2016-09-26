@@ -20,9 +20,9 @@
     <appender name="file-info" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <append>true</append>  
     	<prudent>false</prudent>
-        <file>${catalina.home}/logs/${FILE_NAME}-INFO.log</file>
+        <file>logs/${FILE_NAME}-INFO.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${catalina.home}/logs/${byDay}/${FILE_NAME}-INFO-${byDay}-%i.log.zip
+            <fileNamePattern>logs/${byDay}/${FILE_NAME}-INFO-${byDay}-%i.log.zip
             </fileNamePattern>
             <minIndex>1</minIndex>
             <maxIndex>10</maxIndex>
@@ -46,9 +46,9 @@
 	<appender name="file-debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<append>true</append>  
     	<prudent>false</prudent>
-        <file>${catalina.home}/logs/${FILE_NAME}-DEBUG.log</file>
+        <file>logs/${FILE_NAME}-DEBUG.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${catalina.home}/logs/${byDay}/${FILE_NAME}-DEBUG-${byDay}-%i.log.zip
+            <fileNamePattern>logs/${byDay}/${FILE_NAME}-DEBUG-${byDay}-%i.log.zip
             </fileNamePattern>
             <minIndex>1</minIndex>
             <maxIndex>10</maxIndex>
@@ -71,9 +71,9 @@
     <appender name="file-warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
     	<append>true</append>  
     	<prudent>false</prudent>
-        <file>${catalina.home}/logs/${FILE_NAME}-WARN.log</file>
+        <file>logs/${FILE_NAME}-WARN.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${catalina.home}/logs/${byDay}/${FILE_NAME}-WARN-${byDay}-%i.log.zip
+            <fileNamePattern>logs/${byDay}/${FILE_NAME}-WARN-${byDay}-%i.log.zip
             </fileNamePattern>
             <minIndex>1</minIndex>
             <maxIndex>10</maxIndex>
@@ -97,9 +97,9 @@
     <appender name="file-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
     	<append>true</append>  
     	<prudent>false</prudent>
-        <file>${catalina.home}/logs/${FILE_NAME}-ERROR.log</file>
+        <file>logs/${FILE_NAME}-ERROR.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${catalina.home}/logs/${byDay}/${FILE_NAME}-ERROR-${byDay}-%i.log.zip
+            <fileNamePattern>logs/${byDay}/${FILE_NAME}-ERROR-${byDay}-%i.log.zip
             </fileNamePattern>
             <minIndex>1</minIndex>
             <maxIndex>10</maxIndex>

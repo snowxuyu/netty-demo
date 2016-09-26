@@ -15,7 +15,7 @@
     <aop:aspectj-autoproxy />
 	
 	<!-- 扫描包 ,包名一定要写全 -->
-	<context:component-scan base-package="org.netty.demo.web">
+	<context:component-scan base-package="org.netty.demo.controller, org.netty.demo.api">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
 	</context:component-scan>
 
