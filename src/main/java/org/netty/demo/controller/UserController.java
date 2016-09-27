@@ -30,6 +30,7 @@ public class UserController {
         return "add";
     }*/
 
+    //接收不到参数
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity insert(@RequestBody User u) {
@@ -53,9 +54,10 @@ public class UserController {
         }
     }
 
-
+    //接收不到参数
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(@RequestBody User u, Model model) {
+    @ResponseBody
+    public ResponseEntity update(@RequestBody User u) {
         ResponseEntity resp = new ResponseEntity();
         try {
             userService.update(u);
@@ -66,8 +68,8 @@ public class UserController {
             resp.setError("添加用出错，数据库操作失败");
 
         }
-        model.addAttribute("resp", resp);
-        return "add";
+
+        return resp;
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)

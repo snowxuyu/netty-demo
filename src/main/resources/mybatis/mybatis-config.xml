@@ -8,6 +8,6 @@
     </settings>
 
     <typeAliases>
-        <package name="org.snow.sys.entity" />
+        <package name="org.netty.demo.entity" />
     </typeAliases>
 </configuration>
