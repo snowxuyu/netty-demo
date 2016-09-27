@@ -68,7 +68,7 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
     
-    
-     <import resource="classpath*:/spring/applicationContext-framework.xml"/>
+    <!--引入框架配置-->
+    <import resource="classpath*:/spring/applicationContext-framework.xml"/>
 
 </beans>
