@@ -1,9 +1,9 @@
 package org.netty.demo.controller;
 
 import org.framework.basic.constant.Constants;
-import org.framework.basic.system.BaseException;
 import org.framework.basic.system.BaseResponse;
 import org.framework.basic.system.ResponseEntity;
+import org.framework.exception.BaseException;
 import org.netty.demo.entity.User;
 import org.netty.demo.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -30,7 +30,6 @@ public class UserController {
         return "add";
     }*/
 
-    //接收不到参数
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity insert(@RequestBody User u) {
@@ -54,7 +53,6 @@ public class UserController {
         }
     }
 
-    //接收不到参数
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity update(@RequestBody User u) {
@@ -110,10 +108,12 @@ public class UserController {
     public String getOne(String id, Model model) {
         ResponseEntity resp = new ResponseEntity();
         try {
-            User u = userService.getById(id);
+            User user = new User();
+            user.setAddress("上海杨浦");
+            List<User> byObj = userService.getByObj(user);
             resp.setStatus(Constants.System.SUCCESSS);
             resp.setMessage("添加用户成功");
-            resp.setData(u);
+            resp.setData(byObj);
         } catch (BaseException e) {
             resp.setStatus(Constants.System.ERROR);
             resp.setError("添加用出错，数据库操作失败");
