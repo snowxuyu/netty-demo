@@ -23,12 +23,13 @@
 	<!--使用fastJson返回json格式数据 -->
 	<mvc:annotation-driven conversion-service="conversionService">
 		<mvc:message-converters register-defaults="true">
+			<!--string消息转换utf-8-->
 			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
 				<constructor-arg name="defaultCharset" value="UTF-8" />
 			</bean>
+
 			<!-- 配置Fastjson支持 -->
-			<bean
-				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+			<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
 				<property name="supportedMediaTypes">
 					<list>
 						<value>text/html;charset=UTF-8</value>
@@ -46,10 +47,20 @@
 				</property>
 			</bean>
 		</mvc:message-converters>
+
+		<!--异步支持-->
+		<mvc:async-support default-timeout="10" task-executor="asyncTaskExecutor">
+			<mvc:callable-interceptors>
+				<bean class="org.framework.basic.server.servlet.async.AsyncInterceptor"/>
+			</mvc:callable-interceptors>
+		</mvc:async-support>
 	</mvc:annotation-driven>
 
-	<bean id="conversionService"
-		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	<!--异步executor-->
+	<bean id="asyncTaskExecutor" class="org.framework.basic.server.servlet.async.ThreadLocalAsyncExecutor"/>
+
+	<!--转换器-->
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="converters">
 			<set>
 				<bean class="org.framework.basic.convert.String2DateConverter" />
@@ -58,28 +69,12 @@
 		</property>
 	</bean>
 
-	<!-- 设置字符编码 -->
-	<bean id="stringConverter"
-		class="org.springframework.http.converter.StringHttpMessageConverter">
-		<property name="supportedMediaTypes">
-			<list>
-				<value>text/plain;charset=UTF-8</value>
-			</list>
-		</property>
-	</bean>
 
 	<!-- 设置上传文件大小 -->
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="defaultEncoding">
-			<value>UTF-8</value>
-		</property>
-		<property name="maxUploadSize">
-			<value>32505856</value><!-- 上传文件大小限制为31M，31*1024*1024 -->
-		</property>
-		<property name="maxInMemorySize">
-			<value>4096</value>
-		</property>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8"></property>
+		<property name="maxUploadSize" value="10485760000"></property>
+		<property name="maxInMemorySize" value="40960"></property>
 	</bean>
 
 
