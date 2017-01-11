@@ -40,7 +40,8 @@
 				<property name="features">
 					<list>
 						<value>WriteMapNullValue</value>
-						<value>QuoteFieldNames</value>
+						<value>WriteNullListAsEmpty</value>
+						<value>WriteNullStringAsEmpty</value>
 						<value>WriteDateUseDateFormat</value>
 						<value>PrettyFormat</value>
 					</list>
