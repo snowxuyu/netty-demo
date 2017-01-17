@@ -9,7 +9,7 @@ import org.framework.basic.server.annotation.NettyBootstrap;
  */
 @NettyBootstrap(applicationContext = "classpath:/springs/applicationContext.xml",
         servletContext = "classpath:/springs/springmvc-servlet.xml",
-        serverConfig = "classpath:/configs/server.properties")
+        serverConfig = "configs/server.properties")
 public class App {
     public static void main( String[] args ){
 		NettyApplication.run(App.class, args);
