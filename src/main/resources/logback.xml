@@ -130,7 +130,7 @@
 	    <appender-ref ref="STDOUT" />
 	</logger>
 	
-    <logger name="com.mobanker" level="DEBUG" additivity="true">
+    <logger name="org.netty.demo" level="DEBUG" additivity="true">
         <appender-ref ref="file-info" />
     </logger>
 
