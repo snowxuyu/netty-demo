@@ -23,29 +23,10 @@
 	<!--使用fastJson返回json格式数据 -->
 	<mvc:annotation-driven conversion-service="conversionService">
 		<mvc:message-converters register-defaults="true">
+			<ref bean="fastJsonHttpMessageConverter"/>
 			<!--string消息转换utf-8-->
 			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
 				<constructor-arg name="defaultCharset" value="UTF-8" />
-			</bean>
-
-			<!-- 配置Fastjson支持 -->
-			<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
-				<property name="supportedMediaTypes">
-					<list>
-						<value>text/html;charset=UTF-8</value>
-						<value>application/json</value>
-					</list>
-				</property>
-				<!-- 定义一个时间属性 WriteDateUseDateFormat是FastJsonHttpMessageConverter 类自带的属性features中的枚举值 -->
-				<property name="features">
-					<list>
-						<value>WriteMapNullValue</value>
-						<value>WriteNullListAsEmpty</value>
-						<value>WriteNullStringAsEmpty</value>
-						<value>WriteDateUseDateFormat</value>
-						<value>PrettyFormat</value>
-					</list>
-				</property>
 			</bean>
 		</mvc:message-converters>
 
@@ -67,6 +48,26 @@
 				<bean class="org.framework.basic.convert.String2DateConverter" />
 				<bean class="org.framework.basic.convert.Date2StringConverter" />
 			</set>
+		</property>
+	</bean>
+	
+	<!-- 配置Fastjson支持 -->
+	<bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+				<value>application/json</value>
+			</list>
+		</property>
+		<!-- 定义一个时间属性 WriteDateUseDateFormat是FastJsonHttpMessageConverter 类自带的属性features中的枚举值 -->
+		<property name="features">
+			<list>
+				<value>WriteMapNullValue</value>
+				<value>WriteNullListAsEmpty</value>
+				<value>WriteNullStringAsEmpty</value>
+				<value>WriteDateUseDateFormat</value>
+				<value>PrettyFormat</value>
+			</list>
 		</property>
 	</bean>
 
