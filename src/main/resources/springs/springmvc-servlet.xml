@@ -19,7 +19,7 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
 	</context:component-scan>
 
-	<!-- 启动注解驱动的Spring MVC功能 -->
+	<!-- 启动注解驱动的Spring MVC功能，完成请求和注解POJO的映射-->
 	<mvc:annotation-driven conversion-service="conversionService">
 		<!--消息转换器-->
 		<mvc:message-converters register-defaults="true">
