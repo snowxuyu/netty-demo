@@ -19,15 +19,14 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
 	</context:component-scan>
 
-	<!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射 -->
-	<!--使用fastJson返回json格式数据 -->
+	<!-- 启动注解驱动的Spring MVC功能 -->
 	<mvc:annotation-driven conversion-service="conversionService">
+		<!--消息转换器-->
 		<mvc:message-converters register-defaults="true">
-			<ref bean="fastJsonHttpMessageConverter"/>
 			<!--string消息转换utf-8-->
-			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-				<constructor-arg name="defaultCharset" value="UTF-8" />
-			</bean>
+			<ref bean="stringHttpMessageConverter" />
+			<!--使用fastJson返回json格式数据 -->
+			<ref bean="fastJsonHttpMessageConverter"/>
 		</mvc:message-converters>
 
 		<!--异步支持-->
@@ -37,9 +36,6 @@
 			</mvc:callable-interceptors>
 		</mvc:async-support>
 	</mvc:annotation-driven>
-
-	<!--异步executor-->
-	<bean id="asyncTaskExecutor" class="org.framework.basic.server.servlet.async.ThreadLocalAsyncExecutor"/>
 
 	<!--转换器-->
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
@@ -70,6 +66,14 @@
 			</list>
 		</property>
 	</bean>
+	
+	<!--string消息转换utf-8-->
+	<bean id="stringHttpMessageConverter"  class="org.springframework.http.converter.StringHttpMessageConverter">  
+		<constructor-arg name="defaultCharset" value="UTF-8" />
+    	</bean>
+	
+	<!--异步executor-->
+	<bean id="asyncTaskExecutor" class="org.framework.basic.server.servlet.async.ThreadLocalAsyncExecutor"/>
 
 
 	<!-- 设置上传文件大小 -->
