@@ -1,159 +1,196 @@
-<?xml version="1.0" encoding="GBK" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <configuration scan="true" scanPeriod="1800 seconds"
-    debug="false">
+               debug="false">
 
     <property name="USER_HOME" value="logs" />
     <property scope="context" name="FILE_NAME" value="netty-demo" />
+    <property scope="context" name="FILE_SIZE" value="500MB" />
 
-    <timestamp key="byDay" datePattern="yyyy-MM-dd" />
+    <timestamp key="byDateTime" datePattern="yyyy-MM-dd" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n </pattern>
+            <pattern> %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n </pattern>
         </encoder>
-        <!-- ´ËÈÕÖ¾appenderÊÇÎª¿ª·¢Ê¹ÓÃ£¬Ö»ÅäÖÃ×îµ×¼¶±ð£¬¿ØÖÆÌ¨Êä³öµÄÈÕÖ¾¼¶±ðÊÇ´óÓÚ»òµÈÓÚ´Ë¼¶±ðµÄÈÕÖ¾ÐÅÏ¢-->  
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">  
-            <level>DEBUG</level>  
-        </filter>  
+        <!-- æ­¤æ—¥å¿—appenderæ˜¯ä¸ºå¼€å‘ä½¿ç”¨ï¼Œåªé…ç½®æœ€åº•çº§åˆ«ï¼ŒæŽ§åˆ¶å°è¾“å‡ºçš„æ—¥å¿—çº§åˆ«æ˜¯å¤§äºŽæˆ–ç­‰äºŽæ­¤çº§åˆ«çš„æ—¥å¿—ä¿¡æ¯-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
     </appender>
 
     <appender name="file-info" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <append>true</append>  
-    	<prudent>false</prudent>
+        <append>true</append>
+        <prudent>false</prudent>
         <file>logs/${FILE_NAME}-INFO.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>logs/${byDay}/${FILE_NAME}-INFO-${byDay}-%i.log.zip
-            </fileNamePattern>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily hours -->
+            <fileNamePattern>logs/${byDateTime}/${FILE_NAME}-INFO-%d{yyyy-MM-dd-HH}-%i.log.zip </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>${FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
             <minIndex>1</minIndex>
-            <maxIndex>10</maxIndex>
+            <maxIndex>30</maxIndex>
         </rollingPolicy>
-
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>50MB</maxFileSize>
-        </triggeringPolicy>
         <encoder>
-            <pattern>%-4relative %d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n
+            <pattern>%-4relative %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n
             </pattern>
         </encoder>
-        <!-- ´ËÈÕÖ¾ÎÄ¼þÖ»¼ÇÂ¼info¼¶±ð£¬²»¼ÇÂ¼´óÓÚinfo¼¶±ðµÄÈÕÖ¾ -->
-		<filter class="ch.qos.logback.classic.filter.LevelFilter">  
-		    <level>INFO</level>  
-		    <onMatch>DENY</onMatch>  
-		    <onMismatch>ACCEPT</onMismatch>  
-		</filter>  
+        <!-- æ­¤æ—¥å¿—æ–‡ä»¶åªè®°å½•infoçº§åˆ«ï¼Œä¸è®°å½•å¤§äºŽinfoçº§åˆ«çš„æ—¥å¿— -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!-- å¼‚æ­¥è¾“å‡º -->
+    <appender name ="async-file-info" class= "ch.qos.logback.classic.AsyncAppender">
+        <!-- ä¸ä¸¢å¤±æ—¥å¿—.é»˜è®¤çš„,å¦‚æžœé˜Ÿåˆ—çš„80%å·²æ»¡,åˆ™ä¼šä¸¢å¼ƒTRACTã€DEBUGã€INFOçº§åˆ«çš„æ—¥å¿— -->
+        <discardingThreshold >0</discardingThreshold>
+        <!-- æ›´æ”¹é»˜è®¤çš„é˜Ÿåˆ—çš„æ·±åº¦,è¯¥å€¼ä¼šå½±å“æ€§èƒ½.é»˜è®¤å€¼ä¸º256 -->
+        <queueSize>512</queueSize>
+        <!-- æ·»åŠ é™„åŠ çš„appender,æœ€å¤šåªèƒ½æ·»åŠ ä¸€ä¸ª -->
+        <appender-ref ref ="file-info"/>
     </appender>
 
-	<appender name="file-debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<append>true</append>  
-    	<prudent>false</prudent>
+    <appender name="file-debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <prudent>false</prudent>
         <file>logs/${FILE_NAME}-DEBUG.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>logs/${byDay}/${FILE_NAME}-DEBUG-${byDay}-%i.log.zip
-            </fileNamePattern>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily hours -->
+            <fileNamePattern>logs/${byDateTime}/${FILE_NAME}-DEBUG-%d{yyyy-MM-dd-HH}-%i.log.zip </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>${FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
             <minIndex>1</minIndex>
-            <maxIndex>10</maxIndex>
+            <maxIndex>30</maxIndex>
         </rollingPolicy>
-
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>50MB</maxFileSize>
-        </triggeringPolicy>
         <encoder>
-            <pattern>%-4relative %d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n
+            <pattern> %-4relative %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n
             </pattern>
         </encoder>
-        <!-- ´ËÈÕÖ¾ÎÄ¼þÖ»¼ÇÂ¼DEBUG¼¶±ð£¬²»¼ÇÂ¼´óÓÚDEBUG¼¶±ðµÄÈÕÖ¾ -->  
-		<filter class="ch.qos.logback.classic.filter.LevelFilter">  
-		    <level>DEBUG</level>  
-		    <onMatch>DENY</onMatch>  
-		    <onMismatch>ACCEPT</onMismatch>  
-		</filter>  
+        <!-- æ­¤æ—¥å¿—æ–‡ä»¶åªè®°å½•DEBUGçº§åˆ«ï¼Œä¸è®°å½•å¤§äºŽDEBUGçº§åˆ«çš„æ—¥å¿— -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
     </appender>
+
+    <!-- å¼‚æ­¥è¾“å‡º -->
+    <appender name ="async-file-debug" class= "ch.qos.logback.classic.AsyncAppender">
+        <!-- ä¸ä¸¢å¤±æ—¥å¿—.é»˜è®¤çš„,å¦‚æžœé˜Ÿåˆ—çš„80%å·²æ»¡,åˆ™ä¼šä¸¢å¼ƒTRACTã€DEBUGã€INFOçº§åˆ«çš„æ—¥å¿— -->
+        <discardingThreshold >0</discardingThreshold>
+        <!-- æ›´æ”¹é»˜è®¤çš„é˜Ÿåˆ—çš„æ·±åº¦,è¯¥å€¼ä¼šå½±å“æ€§èƒ½.é»˜è®¤å€¼ä¸º256 -->
+        <queueSize>512</queueSize>
+        <!-- æ·»åŠ é™„åŠ çš„appender,æœ€å¤šåªèƒ½æ·»åŠ ä¸€ä¸ª -->
+        <appender-ref ref ="file-debug"/>
+    </appender>
+
     <appender name="file-warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    	<append>true</append>  
-    	<prudent>false</prudent>
+        <append>true</append>
+        <prudent>false</prudent>
         <file>logs/${FILE_NAME}-WARN.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>logs/${byDay}/${FILE_NAME}-WARN-${byDay}-%i.log.zip
-            </fileNamePattern>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily hours -->
+            <fileNamePattern>logs/${byDateTime}/${FILE_NAME}-WARN-%d{yyyy-MM-dd-HH}-%i.log.zip </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>${FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
             <minIndex>1</minIndex>
-            <maxIndex>10</maxIndex>
+            <maxIndex>30</maxIndex>
         </rollingPolicy>
-
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>50MB</maxFileSize>
-        </triggeringPolicy>
         <encoder>
-            <pattern>%-4relative %d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n
+            <pattern>%-4relative %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n
             </pattern>
         </encoder>
-        <!-- ´ËÈÕÖ¾ÎÄ¼þÖ»¼ÇÂ¼warn¼¶±ð£¬²»¼ÇÂ¼´óÓÚwarn¼¶±ðµÄÈÕÖ¾ -->  
-		<filter class="ch.qos.logback.classic.filter.LevelFilter">  
-		    <level>WARN</level>  
-		    <onMatch>DENY</onMatch>  
-		    <onMismatch>ACCEPT</onMismatch>  
-		</filter>  
+        <!-- æ­¤æ—¥å¿—æ–‡ä»¶åªè®°å½•warnçº§åˆ«ï¼Œä¸è®°å½•å¤§äºŽwarnçº§åˆ«çš„æ—¥å¿— -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
     </appender>
-    
+
+    <appender name ="async-file-warn" class= "ch.qos.logback.classic.AsyncAppender">
+        <!-- ä¸ä¸¢å¤±æ—¥å¿—.é»˜è®¤çš„,å¦‚æžœé˜Ÿåˆ—çš„80%å·²æ»¡,åˆ™ä¼šä¸¢å¼ƒTRACTã€DEBUGã€INFOçº§åˆ«çš„æ—¥å¿— -->
+        <discardingThreshold >0</discardingThreshold>
+        <!-- æ›´æ”¹é»˜è®¤çš„é˜Ÿåˆ—çš„æ·±åº¦,è¯¥å€¼ä¼šå½±å“æ€§èƒ½.é»˜è®¤å€¼ä¸º256 -->
+        <queueSize>512</queueSize>
+        <!-- æ·»åŠ é™„åŠ çš„appender,æœ€å¤šåªèƒ½æ·»åŠ ä¸€ä¸ª -->
+        <appender-ref ref ="file-warn"/>
+    </appender>
+
     <appender name="file-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    	<append>true</append>  
-    	<prudent>false</prudent>
+        <append>true</append>
+        <prudent>false</prudent>
         <file>logs/${FILE_NAME}-ERROR.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>logs/${byDay}/${FILE_NAME}-ERROR-${byDay}-%i.log.zip
-            </fileNamePattern>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily hours -->
+            <fileNamePattern>logs/${byDateTime}/${FILE_NAME}-ERROR-%d{yyyy-MM-dd-HH}-%i.log.zip </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>${FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
             <minIndex>1</minIndex>
-            <maxIndex>10</maxIndex>
+            <maxIndex>30</maxIndex>
         </rollingPolicy>
-
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>50MB</maxFileSize>
-        </triggeringPolicy>
         <encoder>
-            <pattern>%-4relative %d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n
+            <pattern>%-4relative %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n
             </pattern>
         </encoder>
-        <!-- ´ËÈÕÖ¾ÎÄ¼þÖ»¼ÇÂ¼ERROR¼¶±ð£¬²»¼ÇÂ¼´óÓÚERROR¼¶±ðµÄÈÕÖ¾ -->  
-		<filter class="ch.qos.logback.classic.filter.LevelFilter">  
-            <level>ERROR</level>  
-            <onMatch>ACCEPT</onMatch>  
-            <onMismatch>DENY</onMismatch>  
-        </filter>  
+        <!-- æ­¤æ—¥å¿—æ–‡ä»¶åªè®°å½•ERRORçº§åˆ«ï¼Œä¸è®°å½•å¤§äºŽERRORçº§åˆ«çš„æ—¥å¿— -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
     </appender>
 
-	<!--
-		Îªµ¥¶ÀµÄ°üÅäÖÃÈÕÖ¾¼¶±ð£¬ÈôrootµÄ¼¶±ð´óÓÚ´Ë¼¶±ð£¬ ´Ë´¦¼¶±ðÒ²»áÊä³ö  
-		Ó¦ÓÃ³¡¾°£ºÉú²ú»·¾³Ò»°ã²»»á½«ÈÕÖ¾¼¶±ðÉèÖÃÎªtrace»òdebug£¬  
-       	ÆäËü°üÔò»á°´rootµÄ¼¶±ðÊä³öÈÕÖ¾  
-    -->  
-	<logger name="org.springframework.beans.TypeConverterDelegate" >
-	    <level value="ERROR" />
-	    <appender-ref ref="STDOUT" />
-	</logger>
-	
-    <logger name="org.netty.demo" level="DEBUG" additivity="true">
+    <appender name ="async-file-error" class= "ch.qos.logback.classic.AsyncAppender">
+        <!-- ä¸ä¸¢å¤±æ—¥å¿—.é»˜è®¤çš„,å¦‚æžœé˜Ÿåˆ—çš„80%å·²æ»¡,åˆ™ä¼šä¸¢å¼ƒTRACTã€DEBUGã€INFOçº§åˆ«çš„æ—¥å¿— -->
+        <discardingThreshold >0</discardingThreshold>
+        <!-- æ›´æ”¹é»˜è®¤çš„é˜Ÿåˆ—çš„æ·±åº¦,è¯¥å€¼ä¼šå½±å“æ€§èƒ½.é»˜è®¤å€¼ä¸º256 -->
+        <queueSize>512</queueSize>
+        <!-- æ·»åŠ é™„åŠ çš„appender,æœ€å¤šåªèƒ½æ·»åŠ ä¸€ä¸ª -->
+        <appender-ref ref ="file-error"/>
+    </appender>
+
+    <logger name="org.netty" level="DEBUG" additivity="true">
         <appender-ref ref="file-info" />
     </logger>
 
-	<logger name="java.sql.PreparedStatement" level="DEBUG" />
-    <logger name="java.sql.Connection" level="DEBUG" />
-    <logger name="java.sql.Statement" level="DEBUG" />
-    <logger name="com.ibatis" level="DEBUG" />
-    <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG" />
-    <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG"/>    
-    <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" />
+    <logger name="org.framework.basic" level="DEBUG" additivity="true">
+        <appender-ref ref="file-info" />
+    </logger>
+
+    <logger name="java.sql.PreparedStatement" level="INFO" />
+    <logger name="java.sql.Connection" level="INFO" />
+    <logger name="java.sql.Statement" level="INFO" />
+    <logger name="com.ibatis" level="INFO" />
+    <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="INFO" />
+    <logger name="com.ibatis.common.jdbc.ScriptRunner" level="INFO"/>
+    <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="INFO" />
     <logger name="venus" level="WARN" />
-    <logger name="org.quartz" level="WARN" />
     <logger name="com.meidusa" level="WARN" />
-    <logger name="org.apache.commons" level="WARN" />
-	<logger name="org.springframework" level="ERROR"></logger>
+    <logger name="org.quartz" level="WARN" />
+    <logger name="org.apache.activemq" level="WARN" />
+    <logger name="org.springframework.jms.connection" level="WARN" />
+    <logger name="org.springframework.amqp.rabbit.listener.BlockingQueueConsumer" level="INFO"/>
 
-
-	<!-- Éú²ú»·¾³£¬½«´Ë¼¶±ðÅäÖÃÎªÊÊºÏµÄ¼¶±ð£¬ÒÔÃûÈÕÖ¾ÎÄ¼þÌ«¶à»òÓ°Ïì³ÌÐòÐÔÄÜ -->  
+    <!-- ç”Ÿäº§çŽ¯å¢ƒï¼Œå°†æ­¤çº§åˆ«é…ç½®ä¸ºé€‚åˆçš„çº§åˆ«ï¼Œä»¥åæ—¥å¿—æ–‡ä»¶å¤ªå¤šæˆ–å½±å“ç¨‹åºæ€§èƒ½ -->
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="file-info" />
-        <appender-ref ref="file-warn" />
-        <appender-ref ref="file-debug" />
-        <appender-ref ref="file-error" />
+        <appender-ref ref="async-file-info" />
+        <appender-ref ref="async-file-warn" />
+        <appender-ref ref="async-file-debug" />
+        <appender-ref ref="async-file-error" />
     </root>
 </configuration>
