@@ -83,5 +83,8 @@
 		<property name="maxInMemorySize" value="40960"></property>
 	</bean>
 
+	<mvc:cors>
+		<mvc:mapping path="/**" />
+	</mvc:cors>
 	
 </beans>

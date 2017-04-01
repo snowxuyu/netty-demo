@@ -71,7 +71,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String delete(String id, Model model) {
+    public String delete(Long id, Model model) {
         ResponseEntity resp = new ResponseEntity();
         try {
             userService.deleteById(id);
@@ -110,7 +110,7 @@ public class UserController {
         try {
             User user = new User();
             user.setAddress("上海杨浦");
-            List<User> byObj = userService.getByObj(user);
+            User byObj = userService.getOneByObj(user);
             resp.setStatus(Constants.System.SUCCESSS);
             resp.setMessage("添加用户成功");
             resp.setData(byObj);

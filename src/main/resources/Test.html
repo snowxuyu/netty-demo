@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JsonTest</title>
+    <script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
+</head>
+<body>
+<div id="d1">
+    <button id="btn" type="button">click me</button>
+</div>
+
+
+<script type="text/javascript">
+    var jsonData = JSON.stringify({"username":"杨静", "passwprd":"12345", "address":"上海市"});
+
+    $("#btn").on("click", function () {
+
+        $.ajax({
+            url:'http://127.0.0.1:8898/api/json',
+            contentType: 'application/json;charset=UTF-8',
+            type:'POST', //GET
+            data: jsonData,
+            dataType:'json',
+            success : function (data) {
+                console.log(data);
+                $("#d1").append("<span>" + JSON.stringify(data["code"]) + "</span> <br />");
+                $("#d1").append("<span>" + JSON.stringify(JSON.stringify(data)) + "</span> <br />");
+            }
+        });
+
+    });
+</script>
+</body>
+</html>
