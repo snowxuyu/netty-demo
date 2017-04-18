@@ -20,6 +20,7 @@
     
     <!--
     <bean class="org.framework.basic.system.PropertyPlaceholderConfigurer">
+          <property name="ignoreUnresolvablePlaceholders" value="true" />
           <property name="locations">
                  <list>
                       <value>classpath:mobanker.properties</value>
