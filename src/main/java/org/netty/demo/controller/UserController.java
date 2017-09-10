@@ -47,7 +47,7 @@ public class UserController {
     public ResponseEntity insert(Integer pageStar, Integer pageSize) {
         try {
             List<User> users = userService.selectAll(pageStar, pageSize);
-            return BaseResponse.buildSuccess(users);
+            return BaseResponse.buildSuccess(users,"操作成功");
         } catch (Exception e) {
             return BaseResponse.buildError(e.getMessage(), "添加失败");
         }
@@ -63,7 +63,7 @@ public class UserController {
             resp.setMessage("添加用户成功");
         } catch (BaseException e) {
             resp.setStatus(Constants.System.ERROR);
-            resp.setError("添加用出错，数据库操作失败");
+            resp.setMessage("添加用出错，数据库操作失败");
 
         }
 
@@ -79,7 +79,7 @@ public class UserController {
             resp.setMessage("添加用户成功");
         } catch (BaseException e) {
             resp.setStatus(Constants.System.ERROR);
-            resp.setError("添加用出错，数据库操作失败");
+            resp.setMessage("添加用出错，数据库操作失败");
 
         }
         model.addAttribute("resp", resp);
@@ -96,7 +96,7 @@ public class UserController {
             resp.setData(userList);
         } catch (BaseException e) {
             resp.setStatus(Constants.System.ERROR);
-            resp.setError("添加用出错，数据库操作失败");
+            resp.setMessage("添加用出错，数据库操作失败");
 
         }
 
@@ -116,7 +116,7 @@ public class UserController {
             resp.setData(byObj);
         } catch (BaseException e) {
             resp.setStatus(Constants.System.ERROR);
-            resp.setError("添加用出错，数据库操作失败");
+            resp.setMessage("添加用出错，数据库操作失败");
 
         }
         model.addAttribute("resp", resp);
@@ -132,7 +132,7 @@ public class UserController {
             resp.setMessage("添加用户成功");
         } catch (BaseException e) {
             resp.setStatus(Constants.System.ERROR);
-            resp.setError("添加用出错，数据库操作失败");
+            resp.setMessage("添加用出错，数据库操作失败");
 
         }
         model.addAttribute("resp", resp);
@@ -148,7 +148,7 @@ public class UserController {
             resp.setMessage("添加用户成功");
         } catch (BaseException e) {
             resp.setStatus(Constants.System.ERROR);
-            resp.setError("添加用出错，数据库操作失败");
+            resp.setMessage("添加用出错，数据库操作失败");
 
         }
         model.addAttribute("resp", resp);
@@ -165,7 +165,7 @@ public class UserController {
             resp.setData(u);
         } catch (BaseException e) {
             resp.setStatus(Constants.System.ERROR);
-            resp.setError("添加用出错，数据库操作失败");
+            resp.setMessage("添加用出错，数据库操作失败");
 
         }
         model.addAttribute("resp", resp);
@@ -182,7 +182,7 @@ public class UserController {
             resp.setData(u);
         } catch (BaseException e) {
             resp.setStatus(Constants.System.ERROR);
-            resp.setError("添加用出错，数据库操作失败");
+            resp.setMessage("添加用出错，数据库操作失败");
 
         }
         model.addAttribute("resp", resp);
